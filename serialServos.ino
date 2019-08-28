@@ -17,9 +17,13 @@ int handleCommand(String com){
 
 void setup() {
   servos[0].attach(3);
+  servos[0].write(90);
   servos[1].attach(5);
+  servos[1].write(41);
   servos[2].attach(6);
+  servos[2].write(128);
   servos[3].attach(9);
+  servos[3].write(52);
   Serial.begin(115200);
 }
 
