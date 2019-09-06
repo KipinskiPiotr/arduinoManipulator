@@ -4,8 +4,8 @@ Servo servos[4];
 String data = "nothing";
 
 void moveServo(int num, int angle){
-  Serial.print("Moving servo " + String(num) + " to " + String(angle) + " angle.");
-  servos[num+1].write(angle);
+  //Serial.print("Moving servo " + String(num) + " to " + String(angle) + " angle.");
+  servos[num-1].write(angle);
 }
 
 int handleCommand(String com){
@@ -32,5 +32,5 @@ void loop() {
     data = Serial.readStringUntil('|');
     handleCommand(data);
   }
-  delay(30);
+  delay(10);
 }
