@@ -1,12 +1,24 @@
 import serial
 import time
+import os
 from pynput import keyboard
+
+red = lambda text: '\033[0;31m' + text + '\033[0m'
 
 step = 1
 PORT = 'COM8'
 
-#PORT = input('Please enter USB port (COM7 for example): ')
+PORT = input('Please enter USB port (COM7 for example): ')
 
+def updateView():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print('Use numbers to pick servo and arrows (left and right) to change angle.')
+    for s in servos:
+        if s == selectedServo:
+            print(red(s.name + ': ' + str(s.angle)))
+        else:
+            print(s.name + ': ' + str(s.angle))
+    
 class Servo:
     def __init__(self, name, angle, minAngle, maxAngle):
         self.name = name
@@ -36,15 +48,14 @@ def on_press(key):
         for i, servo in enumerate(servos):
             if key.char == servo.name:
                 selectedServo = servos[i]
-                print('Picked Servo ' + servo.name)
+                #print('Picked Servo ' + servo.name)
 
     except AttributeError:
         if key == keyboard.Key.left or key == keyboard.Key.right:
-            print(selectedServo.name + 'x' + str(selectedServo.angle) + '|')
             if(selectedServo.moveBy(step if key == keyboard.Key.right else -step)):
                 ser.write((selectedServo.name + 'x' + str(selectedServo.angle) + '|').encode())
                 ser.flush()
-            #print('Arduino: ' + ser.read(30).decode())
+    updateView()
 
 def on_release(key):
     if key == keyboard.Key.esc:
@@ -53,8 +64,7 @@ def on_release(key):
 
 print('Waiting for Arduino to reboot')
 time.sleep(3)
-print('Use numbers to pick servo and arrows (left and right) to change angle.')
-print('Picked Servo ' + selectedServo.name)
+updateView()
 
 # Starting keyboard input
 with keyboard.Listener(
