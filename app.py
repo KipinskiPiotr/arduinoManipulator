@@ -3,9 +3,9 @@ import time
 from pynput import keyboard
 
 step = 1
-PORT = 'COM7'
+PORT = 'COM8'
 
-PORT = input('Please enter USB port (COM7 for example): ')
+#PORT = input('Please enter USB port (COM7 for example): ')
 
 class Servo:
     def __init__(self, name, angle, minAngle, maxAngle):
@@ -23,7 +23,7 @@ class Servo:
             #print("Cannot exceed angles!")
             return False
 
-servos = [Servo('1', 90, 0, 180), Servo('2', 41, 30, 150), Servo('3', 128, 60, 135), Servo('4', 52, 45, 120)]
+servos = [Servo('1', 90, 0, 180), Servo('2', 115, 55, 175), Servo('3', 128, 60, 135), Servo('4', 52, 45, 120)]
 selectedServo = servos[0]
 
 ser = serial.Serial(PORT, 115200, timeout=1)
@@ -40,7 +40,7 @@ def on_press(key):
 
     except AttributeError:
         if key == keyboard.Key.left or key == keyboard.Key.right:
-            #print(selectedServo.name + 'x' + str(selectedServo.angle) + '|')
+            print(selectedServo.name + 'x' + str(selectedServo.angle) + '|')
             if(selectedServo.moveBy(step if key == keyboard.Key.right else -step)):
                 ser.write((selectedServo.name + 'x' + str(selectedServo.angle) + '|').encode())
                 ser.flush()
