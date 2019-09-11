@@ -19,13 +19,13 @@ void setup() {
   servos[0].attach(3);
   servos[0].write(90);
   servos[1].attach(5);
-  servos[1].write(90);
+  servos[1].write(125);
   servos[2].attach(6);
-  servos[2].write(90);
+  servos[2].write(136);
   servos[3].attach(9);
-  servos[3].write(90);
+  servos[3].write(7);
   servos[4].attach(10);
-  servos[4].write(90);
+  servos[4].write(100);
   Serial.begin(115200);
 }
 
